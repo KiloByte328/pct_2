@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include <math.h>
 #include <stdlib.h>
 #include <mpi.h>
+#include <math.h>
 
 int main(int argc, char** argv)
 {
@@ -21,10 +21,10 @@ int main(int argc, char** argv)
     {
         double x = (-1) * ((double)rand() / RAND_MAX);
         double y = (double)rand() / RAND_MAX;
-        if (y <= sin(x))
+        if (y <= cos(x))
         {
             all_in++;
-            sum = sum + exp(x - y);
+            sum = sum + exp((x - y));
         }
     }
     MPI_Reduce(&sum, &n_sum, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
@@ -34,7 +34,7 @@ int main(int argc, char** argv)
         double v = PI * n_all_in / n;
         double res = v * n_sum / n_all_in;
         double end = MPI_Wtime() - start;
-        printf("result is: %.12f\n n is: %d\n all dots inside: %d, time of work is: %f\n", res, n, n_all_in, end);
+        printf("result is: %f\n n is: %d\n all dots inside: %d, time of work is: %f\n", res, n, n_all_in, end);
     }
     MPI_Finalize();
     return 0;
